@@ -34,7 +34,7 @@ prt_msg:
     MOV AL, [msg + SI]
     MOV BH, 0
     MOV BL, 9       ; color
-    INT 10          ; display one character end
+    INT 0x10          ; display one character end
     
 ;    MOV SI, SI+1
     ADD SI, 1
