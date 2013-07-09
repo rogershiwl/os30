@@ -8,7 +8,7 @@ void HariMain(void)
 	struct BOOTINFO *binfo = (struct BOOTINFO *) ADR_BOOTINFO;
 	char s[40], mcursor[256];
 	int mx, my;
-	char data = 0;
+	unsigned char data = 0;
 	char sdata[32];
 	int rd, wt;
 
@@ -38,7 +38,7 @@ void HariMain(void)
 			kb_fifo_pointer(&rd, &wt);
 			sprintf(sdata, "0x%2x, rd=%d, wt=%d", data, rd, wt);
 
-			boxfill8(binfo->vram, binfo->scrnx, COL8_000000, 0, 0, 32 * 8 - 1, 15);
+			boxfill8(binfo->vram, binfo->scrnx, COL8_008484, 0, 0, 32 * 8 - 1, 15);
 			putfonts8_asc(binfo->vram, binfo->scrnx, 0, 0, COL8_FFFFFF, sdata);
 		}
 	}
