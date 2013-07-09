@@ -8,9 +8,14 @@ void HariMain(void)
 	struct BOOTINFO *binfo = (struct BOOTINFO *) ADR_BOOTINFO;
 	char s[40], mcursor[256];
 	int mx, my;
+	char data = 0;
+	char sdata[32];
+	int rd, wt;
 
 	init_gdtidt();
 	init_pic();
+	kb_fifo_init();
+
 	io_sti(); /* IDT/PICの初期化が終わったのでCPUの割り込み禁止を解除 */
 
 	init_palette();
@@ -26,6 +31,15 @@ void HariMain(void)
 	io_out8(PIC1_IMR, 0xef); /* マウスを許可(11101111) */
 
 	for (;;) {
-		io_hlt();
+		if(!kb_fifo_with_data()) {
+			io_stihlt();
+		} else {
+			kb_fifo_get_data(&data);
+			kb_fifo_pointer(&rd, &wt);
+			sprintf(sdata, "0x%2x, rd=%d, wt=%d", data, rd, wt);
+
+			boxfill8(binfo->vram, binfo->scrnx, COL8_000000, 0, 0, 32 * 8 - 1, 15);
+			putfonts8_asc(binfo->vram, binfo->scrnx, 0, 0, COL8_FFFFFF, sdata);
+		}
 	}
 }
