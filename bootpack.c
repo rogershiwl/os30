@@ -11,6 +11,7 @@ void HariMain(void)
 	unsigned char data = 0;
 	char sdata[32];
 	int rd, wt;
+	unsigned int memsize = 0;
 
 	init_gdtidt();
 	init_pic();
@@ -27,6 +28,10 @@ void HariMain(void)
 	sprintf(s, "(%d, %d)", mx, my);
 	putfonts8_asc(binfo->vram, binfo->scrnx, 0, 0, COL8_FFFFFF, s);
 
+	memsize = mem_test(0x400000, 0xbfffffff);
+	sprintf(s, "MEM=%d MB", memsize/(1024 * 1024));
+	putfonts8_asc(binfo->vram, binfo->scrnx, 0, 30, COL8_FFFFFF, s);
+	
 	io_out8(PIC0_IMR, 0xf9); /* PIC1とキーボードを許可(11111001) */
 	io_out8(PIC1_IMR, 0xef); /* マウスを許可(11101111) */
 

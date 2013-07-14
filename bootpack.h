@@ -94,3 +94,6 @@ void inthandler2c(int *esp);
 #define PIC1_ICW2		0x00a1
 #define PIC1_ICW3		0x00a1
 #define PIC1_ICW4		0x00a1
+
+/* mem.c */
+unsigned int mem_test(unsigned int start, unsigned int end);
