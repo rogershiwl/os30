@@ -1,6 +1,7 @@
 /* bootpackのメイン */
 
 #include "bootpack.h"
+#include "mem.h"
 #include <stdio.h>
 
 void HariMain(void)
@@ -29,8 +30,12 @@ void HariMain(void)
 	putfonts8_asc(binfo->vram, binfo->scrnx, 0, 0, COL8_FFFFFF, s);
 
 	memsize = mem_test(0x400000, 0xbfffffff);
-	sprintf(s, "MEM=%d MB", memsize/(1024 * 1024));
+	sprintf(s, "MEM = %d MB", memsize/(1024 * 1024));
 	putfonts8_asc(binfo->vram, binfo->scrnx, 0, 30, COL8_FFFFFF, s);
+	mem_init(0x400000, memsize-0x400000);
+	memsize = get_mem_free();
+	sprintf(s, "MEM free = %d MB", memsize/(1024 * 1024));
+	putfonts8_asc(binfo->vram, binfo->scrnx, 0, 60, COL8_FFFFFF, s);
 	
 	io_out8(PIC0_IMR, 0xf9); /* PIC1とキーボードを許可(11111001) */
 	io_out8(PIC1_IMR, 0xef); /* マウスを許可(11101111) */
