@@ -1,0 +1,13 @@
+
+git@github.com:rogershiwl/testone.git
+
+git clone git@github.com:rogershiwl/os30.git
+
+git add -A
+git commit -m "comments"
+git tag tag_kb
+git branch -r
+git push origin master
+
+
+
