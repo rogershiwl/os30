@@ -25,6 +25,7 @@ void store_cr0(int cr0);
 void asm_inthandler21(void);
 void asm_inthandler27(void);
 void asm_inthandler2c(void);
+void asm_inthandler20(void);
 unsigned int memtest_sub(unsigned int start, unsigned int end);
 
 /* fifo.c */
