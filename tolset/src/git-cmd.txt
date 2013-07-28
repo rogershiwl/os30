@@ -10,4 +10,16 @@ git branch -r
 git push origin master
 
 
+# 清除untracked文件
+git clean -fx
+
+# check到上一次提交版本
+
+
+# git log查看某文件的历次修改
+
+
+
+
+
 
