@@ -2,7 +2,6 @@
 
 #include "bootpack.h"
 #include <stdio.h>
-#include "timer.h"
 
 void init_pic(void)
 /* PIC‚Ì‰Šú‰» */
@@ -37,21 +36,3 @@ void inthandler27(int *esp)
 	io_out8(PIC0_OCW2, 0x67); /* IRQ-07ó•tŠ®—¹‚ğPIC‚É’Ê’m */
 	return;
 }
-
-void inthandler20(int *esp)
-/*
-PIT timer intr handler :
-	20 + intrnum
-OCW2 :
-	bit0-2 is intr num
-	bit5-7(011) is to end the intr
-*/
-{
-	pit_timer.count++;
-
-	io_out8(PIC0_OCW2, 0x60);
-	return;
-}
-
-
-
