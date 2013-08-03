@@ -2,6 +2,7 @@
 
 #include "bootpack.h"
 #include <stdio.h>
+#include "task.h"
 
 void make_window8(unsigned char *buf, int xsize, int ysize, char *title);
 void putfonts8_asc_sht(struct SHEET *sht, int x, int y, int c, int b, char *s, int l);
@@ -85,6 +86,8 @@ void HariMain(void)
 			memtotal / (1024 * 1024), memman_total(memman) / 1024);
 	putfonts8_asc_sht(sht_back, 0, 32, COL8_FFFFFF, COL8_008484, s, 40);
 
+	task_init(memman, sht_back);
+	
 	for (;;) {
 		io_cli();
 		if (fifo32_status(&fifo) == 0) {

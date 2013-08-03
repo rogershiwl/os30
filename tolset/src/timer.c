@@ -1,6 +1,7 @@
 /* タイマ関係 */
 
 #include "bootpack.h"
+#include "task.h"
 
 #define PIT_CTRL	0x0043
 #define PIT_CNT0	0x0040
@@ -89,6 +90,8 @@ void timer_settime(struct TIMER *timer, unsigned int timeout)
 void inthandler20(int *esp)
 {
 	struct TIMER *timer;
+	int ts = 0;
+	
 	io_out8(PIC0_OCW2, 0x60);	/* IRQ-00受付完了をPICに通知 */
 	timerctl.count++;
 	if (timerctl.next > timerctl.count) {
@@ -102,10 +105,20 @@ void inthandler20(int *esp)
 		}
 		/* タイムアウト */
 		timer->flags = TIMER_FLAGS_ALLOC;
-		fifo32_put(timer->fifo, timer->data);
+		if (timer != mt_timer) {
+			fifo32_put(timer->fifo, timer->data);
+		} else {
+			ts = 1;
+		}
 		timer = timer->next; /* 次のタイマの番地をtimerに代入 */
 	}
 	timerctl.t0 = timer;
 	timerctl.next = timer->timeout;
+
+	if (ts != 0) {
+		mt_taskswitch();
+	}
+
 	return;
 }
+
